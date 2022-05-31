@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const nova = document.querySelector('#nova');
+
+        const botao = document.querySelector('#submit');
+        botao.disabled = true;
+
+        nova.onkeyup = () => {
+
+            if(nova.value.length > 0) {
+                botao.disabled = false;                
+            }
+            else {
+                botao.disabled = true;                
+            }
+        }
+
+
+
+        document.querySelector('form').onsubmit = () => {
+
+            if (nova.value.length > 0) {
+                const li = document.createElement('li');
+                li.innerHTML = nova.value;
+
+                const lista = document.querySelector('#tarefas');
+                lista.append(li);
+
+                nova.value = '';
+            }
+            // para não submetet o form ao servidor
+            return false;
+        }
+    });
+</script>
+
+<body>
+
+    <h1>Tarefas</h1>
+
+    <ul id="tarefas"></ul>
+
+    <form>
+        <input type="text" id="nova" placeholder="nova tarefa">
+        <input type="submit" value="guardar" id="submit">
+
+    </form>
+
+</body>
+
+</html>

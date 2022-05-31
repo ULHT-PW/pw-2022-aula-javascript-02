@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Taxa de Câmbio</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('form').onsubmit = function () {
+
+                // obtem a moeda do input do utilizador
+                const moeda = document.querySelector('#moeda').value.toUpperCase();
+
+                // Envia pedido GET ao URL da API Exchange
+                fetch('http://api.exchangeratesapi.io/v1/latest?' +
+                        'access_key=feeea4a36c99c7c5f31c70dbfae3d215')
+
+                    // Põe resposta noformato json
+                    .then(response => response.json())
+
+                    .then(data => {
+                        
+                        // Obter o valor dos dados
+                        const valor = data.rates[moeda]; // com [] permite usar variavel
+
+                        // Verifica se moeda é válida: senão da mensagem de moeda invalida
+                        if (valor !== undefined) {
+                            // Mostra valor de cambio no ecrã
+                            document.querySelector('#cambio').innerHTML =
+                                `1 EUR = ${valor.toFixed(3)} ${moeda}.`;
+                        } else {
+                            // Display error on the screen
+                            document.querySelector('#cambio').innerHTML = 'Moeda inválida.';
+                        }
+                    })
+                    // Catch apanha erros e mostra na consola
+                    .catch(error => {
+                        console.log('Error:', error);
+                    });
+
+                // Previne submissão do formulário
+                return false;
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <form>
+        <input type="text" id="moeda" placeholder="moeda">
+        <input type="submit" value="Converter">
+    </form>
+    <div id="cambio"></div>
+</body>
+
+</html>
